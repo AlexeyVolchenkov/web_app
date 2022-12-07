@@ -1,0 +1,23 @@
+{% extends 'pattern.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <form action="/add_person" method="post">
+        Person
+        <input type="text" name="first_name" id="first_name" class="form-control" placeholder="first_name"><br>
+        <input type="text" name="second_name" id="second_name" class="form-control" placeholder="second_name"><br>
+        <input type="text" name="last_name" id="last_name" class="form-control" placeholder="last_name"><br>
+        <input type="text" name="first_name_genitive" id="first_name_genitive" class="form-control" placeholder="first_name_genitive"><br>
+        <input type="text" name="second_name_genitive" id="second_name_genitive" class="form-control" placeholder="second_name_genitive"><br>
+        <input type="text" name="mil_ranks_id" id="mil_ranks_id" class="form-control" placeholder="mil_ranks_id"><br>
+        <input type="text" name="science_ranks_id" id="science_ranks_id" class="form-control" placeholder="science_ranks_id"><br>
+        <input type="text" name="science_levels_id" id="science_levels_id" class="form-control" placeholder="science_levels_id"><br>
+        <input type="text" name="post_adress" id="post_adress" class="form-control" placeholder="post_adress"><br>
+        Person_contacts
+        <input type="text" name="person_id" id="person_id" class="form-control" placeholder="person_id"><br>
+        <input type="text" name="contact_types_id" id="contact_types_id" class="form-control" placeholder="contact_types_id"><br>
+        <input type="text" name="value" id="value" class="form-control" placeholder="value"><br>
+        <input type="submit" class="btn btn-success" value="Добавить">
+    </form>
+</div>
+{% endblock %}

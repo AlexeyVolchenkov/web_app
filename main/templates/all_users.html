@@ -1,0 +1,42 @@
+{% extends 'pattern.html' %}
+
+{% block title %}
+Все зарегестрированные пользователи
+{% endblock %}
+
+
+{% block body %}
+    <h1>Все зарегестрированные пользователи</h1>
+    <div class="alert alert-info">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>first_name</th>
+                    <th>second_name</th>
+                    <th>last_name</th>
+                    <th>first_name_genitive</th>
+                    <th>second_name_genitive</th>
+                    <th>mil_ranks_id</th>
+                    <th>science_ranks_id</th>
+                    <th>science_levels_id</th>
+                    <th>post_adress</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for el in articles %}
+                    <tr>
+                        <td>{{ el.first_name }}</td>
+                        <td>{{ el.second_name }}</td>
+                        <td>{{ el.last_name }}</td>
+                        <td>{{ el.first_name_genitive }}</td>
+                        <td>{{ el.second_name_genitive }}</td>
+                        <td>{{ el.mil_ranks_id }}</td>
+                        <td>{{ el.science_ranks_id }}</td>
+                        <td>{{ el.science_levels_id }}</td>
+                        <td>{{ el.post_adress }}</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
