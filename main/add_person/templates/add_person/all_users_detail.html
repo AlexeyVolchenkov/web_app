@@ -1,12 +1,12 @@
 {% extends 'pattern.html' %}
 
 {% block title %}
-Все зарегистрированные пользователи
+{{ article.id }}
 {% endblock %}
 
 
 {% block body %}
-    <h1>Все зарегистрированные пользователи</h1>
+    <h1>Пользователь с id: {{ article.id }}</h1>
     <div class="alert alert-info">
         <table class="table table-bordered">
             <thead>
@@ -34,7 +34,7 @@
                         <td>{{ el.science_ranks_id }}</td>
                         <td>{{ el.science_levels_id }}</td>
                         <td>{{ el.post_adress }}</td>
-                        <td><a href="/all-users/{{el.id}}" class="btn btn-warning">Подробнее</a></td>
+                        <td><a href="/all_users/{{el.id}}" class="btn btn-warning">Подробнее</a></td>
                     </tr>
             {% endfor %}
             </tbody>

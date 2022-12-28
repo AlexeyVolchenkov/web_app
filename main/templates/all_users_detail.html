@@ -1,0 +1,60 @@
+{% extends 'pattern.html' %}
+
+{% block title %}
+{{ info_Person.id }}
+{% endblock %}
+
+
+{% block body %}
+    <h1>Пользователь с id: {{ info_Person.id }}</h1>
+    <div class="alert alert-info">
+        <p>Person</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>first_name</th>
+                    <th>second_name</th>
+                    <th>last_name</th>
+                    <th>first_name_genitive</th>
+                    <th>second_name_genitive</th>
+                    <th>mil_ranks_id</th>
+                    <th>science_ranks_id</th>
+                    <th>science_levels_id</th>
+                    <th>post_adress</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ info_Person.first_name }}</td>
+                <td>{{ info_Person.second_name }}</td>
+                <td>{{ info_Person.last_name }}</td>
+                <td>{{ info_Person.first_name_genitive }}</td>
+                <td>{{ info_Person.second_name_genitive }}</td>
+                <td>{{ info_Person.mil_ranks_id }}</td>
+                <td>{{ info_Person.science_ranks_id }}</td>
+                <td>{{ info_Person.science_levels_id }}</td>
+                <td>{{ info_Person.post_adress }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Person_contacts</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>person_id</th>
+                    <th>contact_types_id</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ info_Person_contacts.person_id }}</td>
+                <td>{{ info_Person_contacts.contact_types_id }}</td>
+                <td>{{ info_Person_contacts.value }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/all-users/{{info_Person.id}}/put" class="btn btn-warning">Изменить</a>
+        <a href="/all-users/{{info_Person.id}}/delete" class="btn btn-danger">Удалить</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'pattern.html' %}
+
+{% block title %}
+Обновление данных
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <form method="post">
+        Person
+        <input type="text" name="first_name" id="first_name" class="form-control" value="{{ info_Person.first_name }}" placeholder="first_name"><br>
+        <input type="text" name="second_name" id="second_name" class="form-control" value="{{ info_Person.second_name }}" placeholder="second_name"><br>
+        <input type="text" name="last_name" id="last_name" class="form-control" value="{{ info_Person.last_name }}" placeholder="last_name"><br>
+        <input type="text" name="first_name_genitive" id="first_name_genitive" class="form-control" value="{{ info_Person.first_name_genitive }}" placeholder="first_name_genitive"><br>
+        <input type="text" name="second_name_genitive" id="second_name_genitive" class="form-control" value="{{ info_Person.second_name_genitive }}" placeholder="second_name_genitive"><br>
+        <input type="text" name="mil_ranks_id" id="mil_ranks_id" class="form-control" value="{{ info_Person.mil_ranks_id }}" placeholder="mil_ranks_id"><br>
+        <input type="text" name="science_ranks_id" id="science_ranks_id" class="form-control" value="{{ info_Person.science_ranks_id }}" placeholder="science_ranks_id"><br>
+        <input type="text" name="science_levels_id" id="science_levels_id" class="form-control" value="{{ info_Person.science_levels_id }}" placeholder="science_levels_id"><br>
+        <input type="text" name="post_adress" id="post_adress" class="form-control" value="{{ info_Person.post_adress }}" placeholder="post_adress"><br>
+        Person_contacts
+        <input type="text" name="person_id" id="person_id" class="form-control" value="{{ info_Person_contacts.person_id }}" placeholder="person_id"><br>
+        <input type="text" name="contact_types_id" id="contact_types_id" class="form-control" value="{{ info_Person_contacts.contact_types_id }}" placeholder="contact_types_id"><br>
+        <input type="text" name="value" id="value" class="form-control" value="{{ info_Person_contacts.value }}" placeholder="value"><br>
+        <input type="submit" class="btn btn-success" value="Обновить">
+    </form>
+</div>
+{% endblock %}
