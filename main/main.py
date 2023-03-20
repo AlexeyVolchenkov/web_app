@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect, url_for
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import requests
+import json
 from myprofile.myprofile import myProfile
 from add_person.add_person import addPerson
 import psycopg2
@@ -9,39 +10,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:AlEx1902345@localhost/example_db'
 db = SQLAlchemy(app)
 
-
 app.register_blueprint(myProfile, url_prefix='/myprofile')
 app.register_blueprint(addPerson, url_prefix='/add_person')
-
-
-class Person(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(45), nullable=False)
-    second_name = db.Column(db.String(45), nullable=False)
-    last_name = db.Column(db.String(45), nullable=False)
-    first_name_genitive = db.Column(db.String(45), nullable=False)
-    second_name_genitive = db.Column(db.String(45), nullable=False)
-    mil_ranks_id = db.Column(db.String(36), nullable=False)
-    science_ranks_id = db.Column(db.String(36), nullable=False)
-    science_levels_id = db.Column(db.String(36), nullable=False)
-    post_adress = db.Column(db.String(256), nullable=False)
-
-    def __repr__(self):
-        return f"<Person {self.id}>"
-
-
-class Person_contacts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    person_id = db.Column(db.String(36), nullable=False)
-    contact_types_id = db.Column(db.String(36), nullable=False)
-    value = db.Column(db.String(256), nullable=False)
-
-    Person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-
-    def __repr__(self):
-        return f"<Person_contacts {self.id}>"
-
-
 
 
 @app.route('/')
@@ -51,53 +21,56 @@ def main():
 
 @app.route('/all-users')
 def all_users():
-    info = Person.query.order_by(Person.id).all()
-    return render_template("all_users.html", articles=info)
+    info = requests.get('http://127.0.0.1:5001')
+    return render_template("all_users.html", articles=info.json())
 
 
 @app.route('/all-users/<int:id>', methods=['GET'])
 def get_user(id):
-    info_Person = Person.query.get(id)
-    info_Person_contacts = Person_contacts.query.get(id)
-    return render_template("all_users_detail.html", info_Person=info_Person, info_Person_contacts=info_Person_contacts)
+    info_Person = requests.get(f'http://127.0.0.1:5001/person/{id}')
+    info_Person_contacts = requests.get(f'http://127.0.0.1:5001/person_contacts/{id}')
+    return render_template("all_users_detail.html", info_Person=info_Person.json(),
+                           info_Person_contacts=info_Person_contacts.json())
 
 
 @app.route('/all-users/<int:id>/delete')
 def del_user(id):
-    info_Person = Person.query.get_or_404(id)
-    info_Person_contacts = Person_contacts.query.get_or_404(id)
-    db.session.delete(info_Person_contacts)
-    db.session.commit()
-    db.session.delete(info_Person)
-    db.session.commit()
+    requests.delete(f'http://127.0.0.1:5001/person/{id}/delete')
     return redirect('/all-users')
 
 
-@app.route('/all-users/<int:id>/put',  methods=['POST', 'GET'])
+@app.route('/all-users/<int:id>/put', methods=['POST', 'GET'])
 def put_user(id):
-    info_Person = Person.query.get_or_404(id)
-    info_Person_contacts = Person_contacts.query.get_or_404(id)
+    info_Person = requests.get(f'http://127.0.0.1:5001/person/{id}')
+    info_Person_contacts = requests.get(f'http://127.0.0.1:5001/person_contacts/{id}')
     if request.method == "POST":
-        info_Person.first_name = request.form['first_name']
-        info_Person.second_name = request.form['second_name']
-        info_Person.last_name = request.form['last_name']
-        info_Person.first_name_genitive = request.form['first_name_genitive']
-        info_Person.second_name_genitive = request.form['second_name_genitive']
-        info_Person.mil_ranks_id = request.form['mil_ranks_id']
-        info_Person.science_ranks_id = request.form['science_ranks_id']
-        info_Person.science_levels_id = request.form['science_levels_id']
-        info_Person.post_adress = request.form['post_adress']
-
-        db.session.flush()
-
-        info_Person_contacts.person_id = request.form['person_id']
-        info_Person_contacts.contact_types_id = request.form['contact_types_id']
-        info_Person_contacts.value = request.form['value']
-
-        db.session.commit()
+        first_name = request.form['first_name']
+        second_name = request.form['second_name']
+        last_name = request.form['last_name']
+        first_name_genitive = request.form['first_name_genitive']
+        second_name_genitive = request.form['second_name_genitive']
+        mil_ranks_id = request.form['mil_ranks_id']
+        science_ranks_id = request.form['science_ranks_id']
+        science_levels_id = request.form['science_levels_id']
+        post_adress = request.form['post_adress']
+        person_id = request.form['person_id']
+        contact_types_id = request.form['contact_types_id']
+        value = request.form['value']
+        requests.put(f'http://127.0.0.1:5001/all-users/{id}/put',
+                     json={"first_name": first_name, "second_name": second_name,
+                           "last_name": last_name,
+                           "first_name_genitive": first_name_genitive,
+                           "second_name_genitive": second_name_genitive,
+                           "mil_ranks_id": mil_ranks_id,
+                           "science_ranks_id": science_ranks_id,
+                           "science_levels_id": science_levels_id,
+                           "post_adress": post_adress, "person_id": person_id,
+                           "contact_types_id": contact_types_id,
+                           "value": value})
         return redirect('/all-users')
     else:
-        return render_template("all_users_update.html", info_Person=info_Person, info_Person_contacts=info_Person_contacts)
+        return render_template("all_users_update.html", info_Person=info_Person.json(),
+                               info_Person_contacts=info_Person_contacts.json())
 
 
 if __name__ == "__main__":
